@@ -1,22 +1,24 @@
-public class SitIn extends Order {
+public class SitIn extends Order
+{
     private int table;
 
-    public SitIn(double basicCost, int tableNumber) {
+    public SitIn(double basicCost, int tableNumber)
+    {
         super(basicCost);
         this.table = tableNumber;
     }
 
-    public void pay ()
+    public void pay()
     {
         this.paid = true;
     }
 
-    private void displayTable ()
+    private void displayTable()
     {
         System.out.print("Table number: " + table + "\t");
     }
 
-    public void display ()
+    public void display()
     {
         if (paid)
         {
