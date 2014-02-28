@@ -1,30 +1,28 @@
-/**
- * Created by Alastair on 2/22/14.
- */
-abstract class Order {
+abstract class Order
+{
 
     protected double basicCost;
     protected double finalCost;
     protected boolean paid;
 
-    public Order (double basicCost)
+    public Order(double basicCost)
     {
         this.basicCost = basicCost;
         this.finalCost = basicCost;
         this.paid = false;
     }
 
-    public void pay ()
+    public void pay()
     {
         this.paid = true;
     }
 
-    public boolean isPaid ()
+    public boolean isPaid()
     {
         return this.paid;
     }
 
-    public void display ()
+    public void display()
     {
         if (paid)
         {
@@ -38,7 +36,7 @@ abstract class Order {
         }
     }
 
-    protected  void displayCost ()
+    protected void displayCost()
     {
         System.out.print("Cost: £" + basicCost + "\tTotal: £" + finalCost + ".\n");
     }

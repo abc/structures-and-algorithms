@@ -1,8 +1,9 @@
-public class RestaurantTest {
+public class RestaurantTest
+{
 
     static Restaurant restaurant = new Restaurant();
 
-    public static void main (String[] args)
+    public static void main(String[] args)
     {
         boolean running = true;
 
@@ -42,7 +43,6 @@ public class RestaurantTest {
                     break;
             }
         }
-
     }
 
     public static void printMenu()
@@ -57,7 +57,7 @@ public class RestaurantTest {
         System.out.println("0. Exit");
     }
 
-    public static void addOrder ()
+    public static void addOrder()
     {
         boolean selecting = true;
 
@@ -65,7 +65,8 @@ public class RestaurantTest {
         {
             Character selection;
 
-            try {
+            try
+            {
                 selection = Character.toUpperCase(Input.getCharacter("\"[S]it in, [D]elivery, or [C]ancel: "));
             }
             catch (Exception e)
@@ -92,7 +93,7 @@ public class RestaurantTest {
 
     }
 
-    private static void addSitIn ()
+    private static void addSitIn()
     {
         double price = getPrice();
         int tableNumber = Input.getInteger("Please enter the table number: ");
@@ -101,7 +102,7 @@ public class RestaurantTest {
 
     }
 
-    private static void addDelivery ()
+    private static void addDelivery()
     {
         double price = getPrice();
         String name = Input.getString("Please enter the customer name: ");
@@ -110,19 +111,19 @@ public class RestaurantTest {
         restaurant.add(order);
     }
 
-    private static double getPrice ()
+    private static double getPrice()
     {
         return Input.getDouble("Please enter the order price: ");
     }
 
-    public static void payOrder ()
+    public static void payOrder()
     {
         Order[] unpaidOrders = new Order[restaurant.orderCount()];
         int[] unpaidOrdersId = new int[restaurant.orderCount()];
         int unpaidOrderCount = 0;
         for (int i = 0; i < restaurant.orderCount(); i++)
         {
-            if (!restaurant.order(i).paid)
+            if (!restaurant.order(i).isPaid())
             {
                 unpaidOrders[unpaidOrderCount] = restaurant.order(i);
                 unpaidOrdersId[unpaidOrderCount] = i;
@@ -150,13 +151,49 @@ public class RestaurantTest {
         Input.getString("");
     }
 
-    public static void deliverOrder ()
+    public static void deliverOrder()
     {
-        throw new IllegalStateException("Function not yet implemented.");
+        Order[] undelivered = new Order[restaurant.orderCount()];
+        int[] undeliveredOrderId = new int[restaurant.orderCount()];
+        int undeliveredOrderCount = 0;
+        for (int i = 0; i < restaurant.orderCount(); i++)
+        {
+            if (restaurant.order(i) instanceof Delivery)
+            {
+                Delivery thisOrder = (Delivery) restaurant.order(i);
+                if (!thisOrder.isDelivered())
+                {
+                    undelivered[undeliveredOrderCount] = restaurant.order(i);
+                    undeliveredOrderId[undeliveredOrderCount] = i;
+                    undeliveredOrderCount++;
+                }
+            }
+        }
+
+        for (int i = 0; i < undeliveredOrderCount; i++)
+        {
+            System.out.print(undeliveredOrderId[i] + ". ");
+            undelivered[i].display();
+        }
+
+        if (undeliveredOrderCount > 0)
+        {
+            int selection = Input.getInteger("Please select an order to deliver: ");
+
+            restaurant.deliver(selection);
+        }
+        else
+        {
+            System.out.println("No undelivered orders.");
+            Input.getString("Press any key to continue.");
+        }
     }
 
-    public static void display ()
+    public static void display()
     {
-        throw new IllegalStateException("Function not yet implemented.");
+        for (int i = 0; i < restaurant.orderCount(); i++)
+        {
+            restaurant.order(i).display();
+        }
     }
 }
