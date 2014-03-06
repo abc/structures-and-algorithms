@@ -3,16 +3,15 @@
  */
 public class MergedArray extends SortedArray implements MergedADT
 {
-    public MergedArray()
-    {
-
-    }
-
     public void display()
     {
-        for (int index = 0; index < this.objectCount; index++)
+        Debug.print("Yo!" + this.objectCount);
+        if (this.objectCount > 0)
         {
-            System.out.println(objects[index]);
+            for (int index = 0; index < this.objectCount; index++)
+            {
+                System.out.println(objects[index]);
+            }
         }
     }
 
@@ -23,6 +22,8 @@ public class MergedArray extends SortedArray implements MergedADT
 
     public MergedADT merge(MergedADT additionalObjects)
     {
+        Debug.print("I got to here...");
+
         SortedArray otherArray = (SortedArray) additionalObjects;
         MergedArray newArray = new MergedArray(this.objectCount + otherArray.objectCount);
 
@@ -30,59 +31,66 @@ public class MergedArray extends SortedArray implements MergedADT
         int j = 0;
         int k = 0;
 
+        Debug.print("This: " + this.objectCount + " other:" + otherArray.objectCount);
         while ((i < this.objectCount) && (j < otherArray.objectCount))
         {
-            System.out.println("Debug. Looping some more. Details - i:" + i + " j:" + j);
+            Debug.print("Debug. Looping some more. Details - i:" + i + " j:" + j);
             if (this.objects[i].compareTo(otherArray.objects[j]) < 0)
             {
-                System.out.println("Setting a new object into newArray k:" + k + " i" + i + " item:" + this.objects[i]);
+                Debug.print("Setting a new object into newArray k:" + k + " i" + i + " item:" + this.objects[i]);
                 newArray.objects[k] = this.objects[i];
                 i++;
+                k++;
+                newArray.objectCount = k;
             }
             else if (this.objects[i].compareTo(otherArray.objects[j]) > 0)
             {
-                System.out.println(
+                Debug.print(
                         "Setting a new object into newArray k:" + k + " j" + j + " item:" + otherArray.objects[j]);
                 newArray.objects[k] = otherArray.objects[j];
                 j++;
+                k++;
+                newArray.objectCount = k;
             }
             else if (this.objects[i].compareTo(otherArray.objects[j]) == 0)
             {
                 newArray.objects[k] = this.objects[i];
-                System.out.println(
+                Debug.print(
                         "Setting a new object into newArray k:" + k + " j" + j + " item:" + otherArray.objects[j]);
                 i++;
                 j++;
+                k++;
+                newArray.objectCount = k;
             }
             else
             {
-                System.out.println("i:" + i + " j:" + j + " k:" + k + ".");
+                Debug.print("i:" + i + " j:" + j + " k:" + k + ".");
                 throw new IllegalStateException("A critical error was encountered during the merge operation.");
             }
-            k++;
         }
         if (i >= this.objectCount)
         {
             while (j < otherArray.objectCount)
             {
-                System.out.println("Debug. Looping some more. Details - i:" + i + " j:" + j);
+                Debug.print("Debug. Looping some more. Details - i:" + i + " j:" + j);
                 newArray.objects[k] = otherArray.objects[j];
                 j++;
                 k++;
+                newArray.objectCount = k;
             }
         }
         else if (j >= otherArray.objectCount)
         {
             while (i < this.objectCount)
             {
-                System.out.println("Debug. Looping some more. Details - i:" + i + " j:" + j);
+                Debug.print("Debug. Looping some more. Details - i:" + i + " j:" + j);
                 newArray.objects[k] = this.objects[i];
                 i++;
                 k++;
+                newArray.objectCount = k;
             }
         }
 
-        newArray.objectCount = k + 1;
         return newArray;
     }
 }
